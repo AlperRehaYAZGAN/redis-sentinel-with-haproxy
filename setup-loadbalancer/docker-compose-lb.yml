@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  proxy:
+    build: ../config-haproxy
+    networks:
+      - redisfnnet
+    ports:
+      - '9000:9000'
+      - '80:80'
+
+networks:
+  redisfnnet:

@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  redisworker:
+    build: ../config-redis
+    ports:
+      - 6379:6379
+    networks:
+      - redisfnnet
+    environment:
+      - IS_SLAVE=true
+      - MASTER_HOST=$MASTER_HOST # enter the master hostname here
+      - SENTINEL_QUORUM=$SENTINEL_QUORUM # e.g. -> 2
+      - SENTINEL_DOWN_AFTER=$SENTINEL_DOWN_AFTER # e.g. -> 1000
+      - SENTINEL_FAILOVER=$SENTINEL_FAILOVER # e.g. -> 5000
+
+networks:
+  redisfnnet:

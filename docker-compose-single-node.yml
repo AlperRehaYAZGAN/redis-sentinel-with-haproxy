@@ -1,0 +1,61 @@
+version: '3'
+
+services:
+  redis01:
+    build: ./config-redis
+    ports:
+      - 6379:6379
+    networks:
+      - redisfnnet
+    environment:
+      - IS_SLAVE=false
+      - MASTER_HOST=redis01
+      - SENTINEL_QUORUM=$SENTINEL_QUORUM # e.g. -> 2
+      - SENTINEL_DOWN_AFTER=$SENTINEL_DOWN_AFTER # e.g. -> 1000
+      - SENTINEL_FAILOVER=$SENTINEL_FAILOVER # e.g. -> 5000
+
+  redis02:
+    build: ./config-redis
+    ports:
+      - 6380:6379
+    depends_on:
+      - redis01
+    networks:
+      - redisfnnet
+    environment:
+      - IS_SLAVE=true
+      - MASTER_HOST=redis01
+      - SENTINEL_QUORUM=$SENTINEL_QUORUM # e.g. -> 2
+      - SENTINEL_DOWN_AFTER=$SENTINEL_DOWN_AFTER # e.g. -> 1000
+      - SENTINEL_FAILOVER=$SENTINEL_FAILOVER # e.g. -> 5000
+
+  redis03:
+    build: ./config-redis
+    ports:
+      - 6381:6379
+    depends_on:
+      - redis01
+    networks:
+      - redisfnnet
+    environment:
+      - IS_SLAVE=false
+      - MASTER_HOST=redis01
+      - SENTINEL_QUORUM=$SENTINEL_QUORUM # e.g. -> 2
+      - SENTINEL_DOWN_AFTER=$SENTINEL_DOWN_AFTER # e.g. -> 1000
+      - SENTINEL_FAILOVER=$SENTINEL_FAILOVER # e.g. -> 5000
+
+
+  proxy:
+    build: ./config-haproxy
+    depends_on:
+      - redis01
+      - redis02
+      - redis03
+    networks:
+      - redisfnnet
+    ports:
+      - '9000:9000'
+      - '8080:80'
+
+networks:
+  redisfnnet:

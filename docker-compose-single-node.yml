@@ -7,6 +7,8 @@ services:
       - 6379:6379
     networks:
       - redisfnnet
+    volumes:
+      - ${REDIS_DATA_DIR}:/data
     environment:
       - IS_SLAVE=false
       - MASTER_HOST=redis01
@@ -22,6 +24,8 @@ services:
       - redis01
     networks:
       - redisfnnet
+    volumes:
+      - ${REDIS_DATA_DIR}:/data
     environment:
       - IS_SLAVE=true
       - MASTER_HOST=redis01
@@ -37,6 +41,8 @@ services:
       - redis01
     networks:
       - redisfnnet
+    volumes:
+      - ${REDIS_DATA_DIR}:/data
     environment:
       - IS_SLAVE=false
       - MASTER_HOST=redis01

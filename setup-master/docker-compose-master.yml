@@ -7,9 +7,11 @@ services:
       - 6379:6379
     networks:
       - redisfnnet
+    volumes:
+      - ${REDIS_DATA_DIR}:/data
     environment:
       - IS_SLAVE=false
-      - MASTER_HOST=redismaster
+      - MASTER_HOST=$MASTER_HOST
       - SENTINEL_QUORUM=$SENTINEL_QUORUM # e.g. -> 2
       - SENTINEL_DOWN_AFTER=$SENTINEL_DOWN_AFTER # e.g. -> 1000
       - SENTINEL_FAILOVER=$SENTINEL_FAILOVER # e.g. -> 5000

@@ -7,6 +7,8 @@ services:
       - 6379:6379
     networks:
       - redisfnnet
+    volumes:
+      - ${REDIS_DATA_DIR}:/data
     environment:
       - IS_SLAVE=true
       - MASTER_HOST=$MASTER_HOST # enter the master hostname here

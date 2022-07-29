@@ -15,7 +15,7 @@ EOF
 redis-sentinel /etc/redis/sentinel.conf
 
 if [ "$IS_SLAVE" == true ]; then
-	redis-server --slaveof $MASTER_HOST 6379 --appendonly
+	redis-server --slaveof $MASTER_HOST 6379 --appendonly yes
 else
-    redis-server --appendonly
+    redis-server --appendonly yes
 fi

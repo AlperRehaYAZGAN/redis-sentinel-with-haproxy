@@ -1,8 +1,10 @@
-FROM haproxy:2.6.2-alpine3.16
+FROM haproxy:2.6.2-alpine
 
-COPY haproxy.cfg .
+USER root
+RUN mkdir -p /etc/haproxy
 
-RUN mkdir -p /etc/haproxy &&\
-    cp haproxy.cfg /etc/haproxy/haproxy.cfg
+COPY haproxy.cfg /etc/haproxy/haproxy.cfg
+
+USER haproxy
 
 CMD [ "haproxy", "-f", "/etc/haproxy/haproxy.cfg" ]

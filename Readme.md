@@ -10,7 +10,6 @@ It only required single command to run whole cluster:
 Lets suppose you have 3 machine to setup and all machine has a docker, docker-compose already. We will use machines for one of load balancing, one of master and one of slave machine. You should follow:  
 1 - (ssh redis-master-machine-ip):  
 ```sh
-$ export MASTER_HOST="redis-master-machine-ip"
 $ export SENTINEL_QUORUM=2
 $ export SENTINEL_DOWN_AFTER=1000
 $ export SENTINEL_FAILOVER=5000  
